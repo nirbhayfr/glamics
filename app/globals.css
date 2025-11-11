@@ -1,26 +1,380 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	--color-primary: #ef2853;
+	--color-secondary: #ff8e4d;
+	--color-yellow: #ffd400;
+	--color-gradient: linear-gradient(
+		90deg,
+		var(--color-primary) 0%,
+		var(--color-secondary) 100%
+	);
+	--bg-main: #fee5d4;
+	--bg-secondary: #f4d8c4;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	background-color: var(--bg-main);
+}
+
+/* ================================
+   LOOP HEADER CSS
+================================ */
+
+/* ---------- Header Container ---------- */
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.75rem 2rem;
+	background: var(--bg-main);
+	position: relative;
+	z-index: 100;
+}
+
+.header-top {
+	background-image: var(--color-gradient);
+}
+
+/* ---------- Logo / Heading ---------- */
+.header-heading {
+	font-size: 2.5rem;
+	font-weight: 700;
+	color: transparent;
+	background-image: var(--color-gradient);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	cursor: pointer;
+	user-select: none;
+	transition: all 0.3s ease;
+}
+
+.header-heading span {
+	font-weight: 900;
+}
+
+/* ---------- Header Icons ---------- */
+.header-icons {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.header-icon {
+	color: #2d2d2d;
+	height: 22px;
+	width: 22px;
+	transition: color 0.3s ease, transform 0.2s ease;
+	cursor: pointer;
+}
+
+.header-icon:hover {
+	color: var(--color-primary);
+	transform: scale(1.1);
+}
+
+/* ---------- Overlay (Dark Background behind Sidebar) ---------- */
+.overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+	z-index: 40;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* ---------- Sidebar (Right Slide-In Menu) ---------- */
+.sidebar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 320px;
+	max-width: 90vw;
+	background: var(--bg-secondary);
+	box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+	transform: translateX(100%);
+	transition: transform 0.3s ease;
+	z-index: 9999;
+	display: flex;
+	flex-direction: column;
+}
+
+.sidebar.open {
+	transform: translateX(0);
+}
+
+/* ---------- Sidebar Header ---------- */
+.sidebar-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 20px;
+	border-bottom: 1px solid #eee;
+}
+
+.sidebar-heading {
+	color: var(--color-secondary);
+	font-size: 2rem;
+	font-weight: 900;
+}
+
+/* Close Icon */
+.close-icon {
+	cursor: pointer;
+	color: #333;
+	font-size: 1.8rem;
+	transition: color 0.3s ease;
+}
+
+.close-icon:hover {
+	color: var(--color-primary);
+}
+
+/* ---------- Sidebar Links ---------- */
+.sidebar-links {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 20px;
+}
+
+.sidebar-link {
+	padding: 1rem 1.5rem;
+	border-radius: 1rem;
+	box-shadow: 2px 8px 3px rgba(0, 0, 0, 0.1);
+	font-size: 1.3rem;
+	font-weight: 800;
+	text-align: center;
+	text-transform: uppercase;
+	background-color: var(--bg-main);
+	transition: all 0.3s ease;
+}
+
+.sidebar-link:hover {
+	background: var(--color-secondary);
+	color: white;
+	transform: translateY(-2px);
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+================================ */
+
+/* ---------- Tablets (max-width: 1024px) ---------- */
+@media (max-width: 1024px) {
+	.header {
+		padding: 0.75rem 1.5rem;
+	}
+
+	.header-heading {
+		font-size: 2.2rem;
+	}
+
+	.header-icons {
+		gap: 1.5rem;
+	}
+
+	.sidebar-heading {
+		font-size: 1.8rem;
+	}
+}
+
+/* ---------- Mobile (max-width: 768px) ---------- */
+@media (max-width: 768px) {
+	.header {
+		padding: 0.5rem 1rem;
+	}
+
+	.header-heading {
+		font-size: 2rem;
+	}
+
+	.header-icons {
+		gap: 1rem;
+	}
+
+	.sidebar {
+		width: 280px;
+	}
+
+	.sidebar-link {
+		font-size: 1.1rem;
+		padding: 0.8rem 1rem;
+	}
+}
+
+/* ---------- Small Mobile (max-width: 480px) ---------- */
+@media (max-width: 480px) {
+	.header {
+		padding: 0.5rem 0.8rem;
+	}
+
+	.header-heading {
+		font-size: 1.6rem;
+	}
+
+	.header-icons {
+		gap: 0.8rem;
+	}
+
+	.header-icon {
+		height: 18px;
+		width: 18px;
+	}
+
+	.sidebar {
+		width: 250px;
+	}
+
+	.sidebar-link {
+		font-size: 1rem;
+		padding: 0.7rem;
+	}
+}
+/* -------- Full Carousel Layout -------- */
+.carousel-full {
+	width: 100%;
+	padding: 10px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.carousel-container {
+	width: 100%;
+	max-width: 1200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+
+.carousel-image-wrapper {
+	position: relative;
+	width: 100%;
+	height: 600px;
+	overflow: hidden;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-slide {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 1s ease;
+	object-position: top right;
+}
+
+.carousel-slide.active {
+	opacity: 1;
+	z-index: 1;
+}
+
+/* -------- Overlay Button -------- */
+/* -------- Overlay Button (Bottom Left Fixed) -------- */
+.overlay-btn {
+	position: absolute;
+	bottom: 30px;
+	left: 30px;
+	background: var(--color-secondary);
+	color: #fff;
+	border: none;
+	padding: 14px 28px;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex; /* keeps it compact */
+	align-items: center;
+	gap: 8px;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+	z-index: 5;
+	width: auto; /* prevents stretching */
+	max-width: 80%; /* optional safety limit */
+}
+
+.overlay-btn:hover {
+	transform: scale(1.05);
+	opacity: 0.9;
+}
+/* -------- Progress Indicators -------- */
+.carousel-progress {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+}
+
+.carousel-progress-bar {
+	width: 40px;
+	height: 4px;
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 2px;
+	position: relative;
+	overflow: hidden;
+}
+
+.carousel-progress-bar.active::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: var(--color-primary);
+	transform: scaleX(0);
+	transform-origin: left;
+	animation: progressFill 4s linear forwards;
+}
+
+@keyframes progressFill {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 1024px) {
+	.carousel-image-wrapper {
+		height: 400px;
+	}
+}
+
+@media (max-width: 768px) {
+	.carousel-image-wrapper {
+		height: 350px;
+	}
+
+	.overlay-btn {
+		bottom: 20px;
+		left: 20px;
+		padding: 10px 22px;
+		font-size: 14px;
+		width: auto;
+	}
+}
+
+@media (max-width: 480px) {
+	.carousel-image-wrapper {
+		height: 280px;
+	}
+	.overlay-btn {
+		bottom: 15px;
+		left: 15px;
+		padding: 8px 18px;
+		font-size: 13px;
+		width: auto;
+	}
 }
